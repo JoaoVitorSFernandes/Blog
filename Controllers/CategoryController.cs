@@ -64,7 +64,7 @@ namespace Blog.Controllers
                     return BadRequest(new ResultViewModel<Category>(ModelState.GetErros()));
 
                 var category = new Category
-                {
+                {   
                     Id = 0,
                     Name = model.Name,
                     Slug = model.Slug.ToLower(),
