@@ -47,7 +47,7 @@ namespace Blog.Controllers
 
                 return Ok(new ResultViewModel<Category>(category));
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return StatusCode(500, new ResultViewModel<Category>("03XC2 - Internal erro in server of the application."));
             }
@@ -76,11 +76,11 @@ namespace Blog.Controllers
 
                 return Created($"v1/categories/{category.Id}", new ResultViewModel<Category>(category));
             }
-            catch (DbUpdateException ex)
+            catch (DbUpdateException)
             {
                 return StatusCode(500, new ResultViewModel<Category>("05XC9 - Not was possible include the category"));
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return StatusCode(500, new ResultViewModel<Category>("05XC9 - Not was possible include the category"));
             }
@@ -113,7 +113,7 @@ namespace Blog.Controllers
 
                 return Ok(model);
             }
-            catch (DbUpdateException ex)
+            catch (DbUpdateException)
             {                          //
                 return StatusCode(500, new ResultViewModel<Category>("05XE8 - Not was possible update category."));
             }
@@ -143,7 +143,7 @@ namespace Blog.Controllers
 
                 return Ok(new ResultViewModel<dynamic>(new { message = "Record deleted successfully" }));
             }
-            catch (DbUpdateException ex)
+            catch (DbUpdateException)
             {
                 return StatusCode(500, new ResultViewModel<Category>("05XE7 - Not was possible delete category."));
             }
