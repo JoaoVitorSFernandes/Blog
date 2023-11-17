@@ -17,6 +17,7 @@ public class AccountController : ControllerBase
     [HttpPost("v1/accounts/")]
     public async Task<IActionResult> PostAsync(
         [FromBody] RegisterViewModel model,
+        [FromServices] EmailService emailService,
         [FromServices] BlogDataContext context)
     {
         if (!ModelState.IsValid)
@@ -38,10 +39,16 @@ public class AccountController : ControllerBase
             await context.Users.AddAsync(user);
             await context.SaveChangesAsync();
 
+            emailService.Send(
+                    user.Name, 
+                    user.Email, 
+                    "Teste de envio de email", 
+                    $"Sua senha e {password}"
+            );
+
             return Ok(new ResultViewModel<dynamic>(new
             {
-                user = user.Email,
-                password
+                user = user.Email
             }));
         }
         catch (DbUpdateException)
