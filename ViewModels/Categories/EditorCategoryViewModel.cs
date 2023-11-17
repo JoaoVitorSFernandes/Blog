@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace Blog.ViewModel
+namespace Blog.ViewModels.Categories
 {
     /*Esse ViewModel foi criado pois a entrada de dados na 
     criação de uma category não correspondia com os valores 

@@ -1,5 +1,6 @@
 C:\Users\vitor\dev\blog\bin\Debug\net7.0\appsettings.Development.json
 C:\Users\vitor\dev\blog\bin\Debug\net7.0\appsettings.json
+C:\Users\vitor\dev\blog\bin\Debug\net7.0\Blog.staticwebassets.runtime.json
 C:\Users\vitor\dev\blog\bin\Debug\net7.0\Blog.exe
 C:\Users\vitor\dev\blog\bin\Debug\net7.0\Blog.deps.json
 C:\Users\vitor\dev\blog\bin\Debug\net7.0\Blog.runtimeconfig.json
