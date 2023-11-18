@@ -2,8 +2,11 @@ using Blog;
 using Blog.Data;
 using Blog.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.IdentityModel.Tokens;
+using System.IO.Compression;
 using System.Text;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,8 +22,8 @@ app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
 app.UseStaticFiles();
+app.UseResponseCompression();
 app.Run();
-
 
 
 void ConfigureAuthentication(WebApplicationBuilder builder)
@@ -44,12 +47,29 @@ void ConfigureAuthentication(WebApplicationBuilder builder)
 
 void ConfigureMvc(WebApplicationBuilder builder)
 {
+    builder.Services.AddMemoryCache();
+    builder.Services.AddResponseCompression(option =>
+    {
+        //option.Providers.Add<BrotliCompressionProvider>();
+        option.Providers.Add<GzipCompressionProvider>();
+        //option.Providers.Add<CustomCompressionProvider>();
+    });
+    builder.Services.Configure<GzipCompressionProviderOptions>(option =>
+    {
+        option.Level = CompressionLevel.Optimal;
+    });
+
     builder
         .Services
         .AddControllers()
         .ConfigureApiBehaviorOptions(options =>
         {
             options.SuppressModelStateInvalidFilter = true;
+        })
+        .AddJsonOptions(x =>
+        {
+            x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+            x.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingDefault;
         });
 }
 
@@ -65,11 +85,11 @@ void LoadConfiguration(WebApplication app)
     //Lendo os dados da AppSettings e passando para a classe Configuration
     /*Get Value e usado para variaveis "comuns", já o 
     Get Section le os dados de um tipo complexo uma estrutura/classe(O uso do Get Section vem acompanhado do Bind)*/
-    Configuration.JwtKey = app.Configuration.GetValue<string>("JwtKey"); 
+    Configuration.JwtKey = app.Configuration.GetValue<string>("JwtKey");
     Configuration.ApiKeyName = app.Configuration.GetValue<string>("ApiKeyName");
     Configuration.ApiKey = app.Configuration.GetValue<string>("ApiKey");
 
     var smtp = new Configuration.StmpConfiguration();
     app.Configuration.GetSection("Smtp").Bind(smtp);
-    Configuration.Smtp = smtp; 
+    Configuration.Smtp = smtp;
 }

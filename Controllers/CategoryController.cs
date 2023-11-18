@@ -5,6 +5,8 @@ using Blog.ViewModels.Categories;
 using Blog.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Memory;
+using sib_api_v3_sdk.Model;
 
 namespace Blog.Controllers
 {
@@ -13,14 +15,16 @@ namespace Blog.Controllers
     {
         [HttpGet("v1/categories")]
         public async Task<IActionResult> GetAsync(
+            [FromServices] IMemoryCache cache,
             [FromServices] BlogDataContext context)
         {
             try
             {
-                var categories = await context
-                                    .Categories
-                                    .AsNoTracking()
-                                    .ToListAsync();
+                var categories = cache.GetOrCreate("CategoriesCache", entry =>
+                {
+                    entry.AbsoluteExpirationRelativeToNow = TimeSpan.FromHours(1);
+                    return context.Categories.AsNoTracking().ToList();
+                });
 
                 return Ok(new ResultViewModel<List<Category>>(categories));
             }
@@ -64,7 +68,7 @@ namespace Blog.Controllers
                     return BadRequest(new ResultViewModel<Category>(ModelState.GetErros()));
 
                 var category = new Category
-                {   
+                {
                     Id = 0,
                     Name = model.Name,
                     Slug = model.Slug.ToLower(),
@@ -152,7 +156,7 @@ namespace Blog.Controllers
                 return StatusCode(500, new ResultViewModel<Category>("05X12 - Not was possible delete category."));
             }
         }
-    
-    
+
+
     }
 }
