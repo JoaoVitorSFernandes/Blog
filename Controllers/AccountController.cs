@@ -37,15 +37,15 @@ public class AccountController : ControllerBase
 
         try
         {
-            await context.Users.AddAsync(user);
-            await context.SaveChangesAsync();
-
             emailService.Send(
                     user.Name,
                     user.Email,
                     "Teste de envio de email",
                     $"Sua senha e {password}"
             );
+
+            await context.Users.AddAsync(user);
+            await context.SaveChangesAsync();
 
             return Ok(new ResultViewModel<dynamic>(new
             {
@@ -138,6 +138,6 @@ public class AccountController : ControllerBase
             return StatusCode(500, new ResultViewModel<string>("06XE3 - Interal Server Erro"));
         }
 
-        return Ok(new ResultViewModel<dynamic>(new {messgae= "Not i possible update one iamge"}));
+        return Ok(new ResultViewModel<dynamic>(new { messgae = "Not i possible update one iamge" }));
     }
 }

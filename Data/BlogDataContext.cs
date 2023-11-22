@@ -12,9 +12,12 @@ namespace Blog.Data
         public DbSet<Role> Roles { get; set; }
         public DbSet<Tag> Tags { get; set; }
 
+        private readonly IConfiguration _configuration;
+        public BlogDataContext(IConfiguration configuration)
+            => _configuration = configuration;
 
         protected override void OnConfiguring(DbContextOptionsBuilder options)
-        => options.UseSqlServer("Server=localhost,1433;Database=Blog;User ID=sa;Password=41Gft.26@98k;encrypt=false;Trusted_Connection=false;");
+            => options.UseSqlServer(_configuration.GetConnectionString("connectionString"));
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
