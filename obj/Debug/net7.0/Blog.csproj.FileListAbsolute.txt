@@ -76,3 +76,9 @@ C:\Users\vitor\dev\blog\obj\Debug\net7.0\refint\Blog.dll
 C:\Users\vitor\dev\blog\obj\Debug\net7.0\Blog.pdb
 C:\Users\vitor\dev\blog\obj\Debug\net7.0\Blog.genruntimeconfig.cache
 C:\Users\vitor\dev\blog\obj\Debug\net7.0\ref\Blog.dll
+C:\Users\vitor\dev\Blog\obj\Debug\net7.0\Blog.sourcelink.json
+C:\Users\vitor\dev\Blog\bin\Debug\net7.0\Microsoft.OpenApi.dll
+C:\Users\vitor\dev\Blog\bin\Debug\net7.0\Swashbuckle.AspNetCore.Swagger.dll
+C:\Users\vitor\dev\Blog\bin\Debug\net7.0\Swashbuckle.AspNetCore.SwaggerGen.dll
+C:\Users\vitor\dev\Blog\bin\Debug\net7.0\Swashbuckle.AspNetCore.SwaggerUI.dll
+C:\Users\vitor\dev\Blog\obj\Debug\net7.0\Blog.MvcApplicationPartsAssemblyInfo.cs
